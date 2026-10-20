@@ -1,0 +1,101 @@
+---
+import Icon from './Icon.astro';
+import { useT } from '../i18n/ui';
+import { getLang, homeAnchor, routes, type L } from '../i18n/utils';
+
+interface Props {
+  alternates: L;
+}
+
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const other = lang === 'es' ? 'en' : 'es';
+const { alternates } = Astro.props;
+
+const links = [
+  { id: 'proyectos', label: t.nav.projects },
+  { id: 'servicios', label: t.nav.services },
+  { id: 'experiencia', label: t.nav.experience },
+  { id: 'metodo', label: t.nav.method },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-border/60 bg-bg/70 backdrop-blur-xl">
+  <nav class="container-page flex h-16 items-center justify-between gap-4" aria-label="Principal">
+    <a
+      href={routes.home[lang]}
+      class="flex min-h-11 items-center gap-2.5 font-display text-lg font-bold tracking-tight"
+    >
+      <span
+        class="grid size-8 place-items-center rounded-lg bg-linear-to-br from-accent to-accent-2 text-sm text-on-accent"
+        aria-hidden="true">RV</span
+      >
+      <span>René Valderrey</span>
+    </a>
+
+    <ul class="hidden items-center gap-1 md:flex">
+      {
+        links.map((l) => (
+          <li>
+            <a
+              href={homeAnchor(lang, l.id)}
+              class="inline-flex min-h-11 items-center rounded-full px-3.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-text"
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={alternates[other]}
+        hreflang={other}
+        lang={other}
+        class="inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border border-border px-3 font-mono text-xs uppercase text-muted transition-colors hover:border-accent hover:text-text"
+        title={t.nav.langLabel}
+      >
+        <Icon name="globe" size={16} />
+        <span aria-hidden="true">{other}</span>
+        <span class="visually-hidden">{other === 'en' ? 'English' : 'Español'}</span>
+      </a>
+      <a href={homeAnchor(lang, 'contacto')} class="btn btn-primary hidden sm:inline-flex">{t.nav.contact}</a>
+
+      <details class="group relative md:hidden">
+        <summary
+          class="grid size-11 cursor-pointer list-none place-items-center rounded-full border border-border text-text [&::-webkit-details-marker]:hidden"
+          aria-label={t.nav.menu}
+        >
+          <Icon name="menu" class="group-open:hidden" />
+          <Icon name="close" class="hidden group-open:block" />
+        </summary>
+        <ul
+          class="absolute right-0 top-14 w-56 rounded-2xl border border-border bg-surface p-2 shadow-2xl shadow-black/40"
+        >
+          {
+            [...links, { id: 'contacto', label: t.nav.contact }].map((l) => (
+              <li>
+                <a
+                  href={homeAnchor(lang, l.id)}
+                  class="flex min-h-11 items-center rounded-xl px-3 text-text hover:bg-surface-2"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Cerrar el menú del celular al elegir una sección.
+  document.querySelectorAll<HTMLDetailsElement>('header details').forEach((d) => {
+    d.addEventListener('click', (e) => {
+      if ((e.target as Element).closest('a')) d.open = false;
+    });
+  });
+</script>

@@ -1,0 +1,35 @@
+---
+import { actions } from 'astro:actions';
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import { useT } from '../i18n/ui';
+import { getLang, homeAnchor, routes } from '../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const result = Astro.getActionResult(actions.contacto);
+// Sin resultado (entrada directa a la URL) se muestra el mensaje de éxito genérico.
+const failed = !!result?.error;
+const invalid = failed && result?.error?.code === 'BAD_REQUEST';
+---
+
+<Base alternates={routes.thanks} title={`${t.thanks.title} · René Valderrey`} noindex>
+  <section class="container-page grid min-h-[60dvh] place-items-center py-20">
+    <div class="card max-w-xl p-8 text-center sm:p-12">
+      <span
+        class:list={[
+          'mx-auto grid size-14 place-items-center rounded-full',
+          failed ? 'bg-danger/15 text-danger' : 'bg-success/15 text-success',
+        ]}
+      >
+        <Icon name={failed ? 'alert' : 'check'} size={28} />
+      </span>
+      <h1 class="mt-6 text-3xl font-bold sm:text-4xl">{failed ? t.thanks.fail : t.thanks.title}</h1>
+      <p class="mt-4 text-muted">{failed ? (invalid ? t.contact.invalid : t.contact.error) : t.thanks.ok}</p>
+      <a href={failed ? homeAnchor(lang, 'contacto') : routes.home[lang]} class="btn btn-primary mt-8">
+        <Icon name="arrow-left" size={18} />
+        {failed ? t.contact.send : t.thanks.back}
+      </a>
+    </div>
+  </section>
+</Base>

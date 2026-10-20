@@ -1,0 +1,69 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { education, experience } from '../data/experience';
+import { useT } from '../i18n/ui';
+import { getLang } from '../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+---
+
+<section id="experiencia" class="container-page py-16" aria-labelledby="experiencia-title">
+  <SectionHeader id="experiencia-title" eyebrow={t.experience.eyebrow} title={t.experience.title} lead={t.experience.lead} />
+
+  <ol class="relative ml-2 border-l border-border sm:ml-4">
+    {
+      experience.map((r) => (
+        <li class="reveal relative pb-10 pl-7 last:pb-0 sm:pl-10">
+          <span
+            class:list={[
+              'absolute -left-[7px] top-2 size-3.5 rounded-full border-2 border-bg',
+              r.current ? 'bg-accent-2 shadow-[0_0_0_4px] shadow-accent-2/25' : 'bg-border-strong',
+            ]}
+            aria-hidden="true"
+          />
+          <div class="card p-6">
+            <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+              <h3 class="text-xl font-bold">
+                {r.title[lang]} <span class="text-subtle">· {r.company}</span>
+              </h3>
+              <p class="font-mono text-xs text-accent-2">{r.period[lang]}</p>
+            </div>
+            {r.context && <p class="mt-1 text-sm text-subtle">{r.context[lang]}</p>}
+            <ul class="mt-4 space-y-2 text-muted">
+              {r.highlights[lang].map((h) => (
+                <li class="flex gap-3">
+                  <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+            {r.stack && (
+              <ul class="mt-4 flex flex-wrap gap-1.5">
+                {r.stack.map((s) => (
+                  <li class="chip text-xs">{s}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="reveal mt-12">
+    <h3 class="eyebrow mb-4">{t.experience.education}</h3>
+    <ul class="grid gap-4 sm:grid-cols-2">
+      {
+        education.map((e) => (
+          <li class="card p-5">
+            <p class="font-semibold">{e.title[lang]}</p>
+            <p class="mt-1 text-sm text-muted">
+              {e.place} · {e.period[lang]}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,209 @@
+---
+import { actions } from 'astro:actions';
+import Icon from './Icon.astro';
+import SectionHeader from './SectionHeader.astro';
+import { useT } from '../i18n/ui';
+import { getLang, profile, routes } from '../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+const c = t.contact;
+
+// Sin JS, el formulario hace POST a la página de gracias, que lee el resultado.
+const action = routes.thanks[lang] + actions.contacto;
+
+const fields = [
+  { id: 'name', label: c.name, error: c.errName },
+  { id: 'email', label: c.email, hint: c.emailHint, error: c.errEmail },
+  { id: 'message', label: c.message, hint: c.messageHint, error: c.errMessage },
+] as const;
+---
+
+<section id="contacto" class="container-page py-16" aria-labelledby="contacto-title">
+  <div class="reveal card grid gap-10 p-7 sm:p-10 lg:grid-cols-[1fr_1.2fr]">
+    <div>
+      <SectionHeader id="contacto-title" eyebrow={c.eyebrow} title={c.title} lead={c.lead} />
+      <p class="text-sm text-subtle">{c.or}</p>
+      <div class="mt-3 flex flex-wrap gap-3">
+        <a href={profile.linkedin} target="_blank" rel="me noopener" class="btn btn-outline">
+          <Icon name="linkedin" size={18} />LinkedIn
+        </a>
+        <a href={profile.github} target="_blank" rel="me noopener" class="btn btn-outline">
+          <Icon name="github" size={18} />GitHub
+        </a>
+      </div>
+    </div>
+
+    <form
+      id="contact-form"
+      method="POST"
+      action={action}
+      class="space-y-5"
+      data-sending={c.sending}
+      data-ok={c.ok}
+      data-error={c.error}
+      data-invalid={c.invalid}
+    >
+      <input type="hidden" name="lang" value={lang} />
+      <input type="hidden" name="startedAt" value="" />
+      <div class="visually-hidden left-0 top-0" aria-hidden="true">
+        <label for="website">{c.honeypot}</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      {
+        fields.map((f) => (
+          <div class="field">
+            <label for={f.id} class="block font-medium">
+              {f.label}
+            </label>
+            {'hint' in f && (
+              <p id={`${f.id}-hint`} class="mt-1 text-sm text-subtle">
+                {f.hint}
+              </p>
+            )}
+            {f.id === 'message' ? (
+              <textarea
+                id="message"
+                name="message"
+                required
+                minlength="10"
+                maxlength="5000"
+                rows="5"
+                aria-describedby="message-hint message-error"
+                class="input mt-2 resize-y"
+              />
+            ) : f.id === 'email' ? (
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                maxlength="200"
+                autocomplete="email"
+                autocapitalize="off"
+                autocorrect="off"
+                spellcheck="false"
+                aria-describedby="email-hint email-error"
+                class="input mt-2"
+              />
+            ) : (
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                minlength="2"
+                maxlength="100"
+                autocomplete="name"
+                aria-describedby="name-error"
+                class="input mt-2"
+              />
+            )}
+            <p id={`${f.id}-error`} class="error-msg mt-2 items-center gap-1.5 text-sm text-danger">
+              <Icon name="alert" size={16} />
+              {f.error}
+            </p>
+          </div>
+        ))
+      }
+
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+        <button type="submit" class="btn btn-primary self-start">
+          {c.send}
+          <Icon name="arrow" size={18} />
+        </button>
+        <p id="contact-status" class="text-sm" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .input {
+    display: block;
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: var(--color-text);
+    background: color-mix(in oklch, var(--color-bg) 70%, transparent);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 0.875rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .input:hover {
+    border-color: var(--color-muted);
+  }
+  .input:focus-visible {
+    outline: none;
+    border-color: var(--color-accent-2);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-accent-2) 30%, transparent);
+  }
+  .error-msg {
+    display: none;
+  }
+  .input:user-invalid,
+  .input[aria-invalid='true'] {
+    border-color: var(--color-danger);
+  }
+  .field:has(.input:user-invalid) .error-msg,
+  .field:has(.input[aria-invalid='true']) .error-msg {
+    display: flex;
+  }
+</style>
+
+<script>
+  import { actions, isInputError } from 'astro:actions';
+
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  if (form) {
+    const status = form.querySelector<HTMLElement>('#contact-status')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const startedAt = form.querySelector<HTMLInputElement>('input[name="startedAt"]')!;
+    startedAt.value = String(Date.now());
+
+    // aria-invalid sigue al estado visual de :user-invalid.
+    const syncAria = (el: Element) => {
+      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+        el.setAttribute('aria-invalid', el.matches(':user-invalid') ? 'true' : 'false');
+      }
+    };
+    form.addEventListener('focusout', (e) => syncAria(e.target as Element));
+    form.addEventListener('input', (e) => {
+      const el = e.target as Element;
+      if (el.getAttribute('aria-invalid') === 'true') syncAria(el);
+    });
+
+    const show = (text: string, kind: 'ok' | 'error' | 'info') => {
+      status.textContent = text;
+      status.className = `text-sm ${kind === 'ok' ? 'text-success' : kind === 'error' ? 'text-danger' : 'text-muted'}`;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      button.disabled = true;
+      show(form.dataset.sending!, 'info');
+
+      const { error } = await actions.contacto(new FormData(form));
+      button.disabled = false;
+
+      if (!error) {
+        form.reset();
+        form.querySelectorAll('[aria-invalid]').forEach((el) => el.setAttribute('aria-invalid', 'false'));
+        startedAt.value = String(Date.now());
+        show(form.dataset.ok!, 'ok');
+        return;
+      }
+      if (isInputError(error)) {
+        Object.keys(error.fields).forEach((name) => {
+          form.querySelector(`[name="${name}"]`)?.setAttribute('aria-invalid', 'true');
+        });
+        form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+        show(form.dataset.invalid!, 'error');
+        return;
+      }
+      show(form.dataset.error!, 'error');
+    });
+  }
+</script>

@@ -1,0 +1,42 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { method, stack } from '../data/home';
+import { useT } from '../i18n/ui';
+import { getLang } from '../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+---
+
+<section id="metodo" class="container-page py-16" aria-labelledby="metodo-title">
+  <SectionHeader id="metodo-title" eyebrow={t.method.eyebrow} title={t.method.title} lead={t.method.lead} />
+  <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {
+      method.map((m) => (
+        <li class="reveal card p-6">
+          <p class="text-gradient font-mono text-3xl font-medium">{m.step}</p>
+          <h3 class="mt-4 text-xl font-bold">{m.title[lang]}</h3>
+          <p class="mt-2 text-sm text-muted">{m.body[lang]}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<section class="container-page py-16" aria-labelledby="stack-title">
+  <SectionHeader id="stack-title" eyebrow={t.stack.eyebrow} title={t.stack.title} />
+  <div class="grid gap-4 md:grid-cols-2">
+    {
+      stack.map((g, i) => (
+        <div class:list={['reveal card p-6', i === 0 && 'md:col-span-2']}>
+          <h3 class="font-mono text-sm uppercase tracking-wider text-accent-2">{g.group[lang]}</h3>
+          <ul class="mt-4 flex flex-wrap gap-2">
+            {g.items.map((it) => (
+              <li class="chip">{it}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>

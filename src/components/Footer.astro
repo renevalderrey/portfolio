@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import { useT } from '../i18n/ui';
+import { getLang, profile } from '../i18n/utils';
+
+const t = useT(getLang(Astro.currentLocale));
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-border/60">
+  <div class="container-page flex flex-col gap-4 py-10 text-sm text-subtle sm:flex-row sm:items-center sm:justify-between">
+    <p>© {year} René Valderrey. {t.footer.built}</p>
+    <div class="flex gap-2">
+      <a
+        href={profile.linkedin}
+        class="grid size-11 place-items-center rounded-full border border-border text-muted hover:border-accent hover:text-text"
+        rel="me noopener"
+        target="_blank"
+      >
+        <Icon name="linkedin" label="LinkedIn" />
+      </a>
+      <a
+        href={profile.github}
+        class="grid size-11 place-items-center rounded-full border border-border text-muted hover:border-accent hover:text-text"
+        rel="me noopener"
+        target="_blank"
+      >
+        <Icon name="github" label="GitHub" />
+      </a>
+    </div>
+  </div>
+</footer>

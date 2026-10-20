@@ -1,0 +1,26 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { stats } from '../data/home';
+import { useT } from '../i18n/ui';
+import { getLang } from '../i18n/utils';
+
+const lang = getLang(Astro.currentLocale);
+const t = useT(lang);
+---
+
+<section class="container-page py-16" aria-labelledby="stats-title">
+  <SectionHeader id="stats-title" title={t.stats.title} lead={t.stats.lead} />
+  <ul class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+    {
+      stats.map((s) => (
+        <li class:list={['reveal card flex flex-col justify-between gap-4 p-5 sm:gap-6 sm:p-6', s.span === 'wide' && 'col-span-2']}>
+          <p class="text-gradient font-display text-4xl font-bold tracking-tight sm:text-6xl">{s.value}</p>
+          <div>
+            <p class="font-semibold text-text">{s.label[lang]}</p>
+            <p class="mt-1 text-sm text-muted">{s.detail[lang]}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
