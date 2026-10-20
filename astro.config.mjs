@@ -10,6 +10,14 @@ const SITE = 'https://renevalderrey.vercel.app';
 export default defineConfig({
   site: SITE,
   adapter: vercel(),
+  // Sin esto Astro ignora los X-Forwarded-* de Vercel, arma la URL como
+  // http://localhost y el chequeo de origen rechaza el formulario con 403.
+  security: {
+    allowedDomains: [
+      { hostname: new URL(SITE).hostname, protocol: 'https' },
+      { hostname: '*.vercel.app', protocol: 'https' },
+    ],
+  },
   integrations: [
     sitemap({
       filter: (page) => !/\/(gracias|thanks)\/?$/.test(page),
