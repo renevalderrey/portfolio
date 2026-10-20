@@ -4,55 +4,54 @@ export interface Stat {
   value: string;
   label: L;
   detail: L;
-  span?: 'wide' | 'tall';
+  span?: 'wide';
 }
 
 export const stats: Stat[] = [
   {
     value: '−90 %',
-    label: { es: 'bugs reportados por clientes', en: 'customer-reported bugs' },
+    label: { es: 'menos errores reportados por clientes', en: 'fewer customer-reported bugs' },
     detail: {
-      es: 'De 555 a 55 con pruebas automatizadas en el CI.',
-      en: 'From 555 to 55 with automated tests in CI.',
+      es: 'De 555 a 55 gracias a pruebas automáticas antes de cada entrega.',
+      en: 'From 555 to 55 thanks to automated tests before every release.',
     },
     span: 'wide',
   },
   {
     value: '100+',
     label: { es: 'hoteles implementados', en: 'hotels onboarded' },
-    detail: { es: 'PMS, ERP, motor de reservas y OTAs.', en: 'PMS, ERP, booking engine and OTAs.' },
+    detail: { es: 'Sistemas, motores de reserva e integraciones.', en: 'Systems, booking engines and integrations.' },
   },
   {
     value: '2×',
-    label: { es: 'cartera de Colombia', en: 'Colombian portfolio' },
+    label: { es: 'cartera de clientes en Colombia', en: 'client portfolio in Colombia' },
     detail: { es: 'De 40 a más de 80 hoteles.', en: 'From 40 to 80+ hotels.' },
   },
   {
-    value: '~490',
-    label: { es: 'archivos de test en Favalio', en: 'test files in Favalio' },
-    detail: {
-      es: 'Incluyen guardias que fallan si una consulta no filtra por empresa.',
-      en: 'Including guards that fail if a query does not filter by company.',
-    },
+    value: '1',
+    label: { es: 'SaaS propio en producción', en: 'own SaaS in production' },
+    detail: { es: 'Favalio, con un cliente que paga por usarlo.', en: 'Favalio, with a customer paying to use it.' },
   },
   {
     value: '70+',
     label: { es: 'modelos de datos', en: 'data models' },
-    detail: { es: 'Diseñados y mantenidos por una sola persona.', en: 'Designed and maintained by one person.' },
+    detail: { es: 'En un sistema diseñado por una sola persona.', en: 'In a system designed by one person.' },
   },
   {
     value: '¢',
-    label: { es: 'costo por conversación de IA', en: 'cost per AI conversation' },
+    label: { es: 'por conversación con IA', en: 'per AI conversation' },
     detail: {
-      es: 'Prompt caching, lotes y topes por cliente bajaron las conversaciones caras a centavos.',
-      en: 'Prompt caching, batching and per-customer caps cut expensive chats down to cents.',
+      es: 'Bajé a centavos el costo de un asistente con prompt caching y topes por cliente.',
+      en: 'I cut an assistant’s cost to cents with prompt caching and per-customer caps.',
     },
     span: 'wide',
   },
 ];
 
+export type IconName = 'code' | 'globe' | 'search' | 'target' | 'spark' | 'shield';
+
 export interface Service {
-  icon: 'code' | 'spark' | 'shield' | 'rocket';
+  icon: IconName;
   title: L;
   body: L;
   items: L<string[]>;
@@ -61,85 +60,109 @@ export interface Service {
 export const services: Service[] = [
   {
     icon: 'code',
-    title: { es: 'Producto a medida', en: 'Custom product' },
+    title: { es: 'Software a medida', en: 'Custom software' },
     body: {
-      es: 'SaaS, paneles de gestión, tiendas online y APIs, pensados para durar y para que otra persona pueda mantenerlos.',
-      en: 'SaaS, admin dashboards, online stores and APIs, built to last and easy for someone else to maintain.',
+      es: 'Sistemas de gestión, puntos de venta, paneles y apps web hechos para cómo trabaja tu negocio, no al revés.',
+      en: 'Management systems, point of sale, dashboards and web apps built around how your business works, not the other way round.',
     },
     items: {
-      es: ['Facturación AFIP/ARCA', 'Mercado Pago y Tiendanube', 'WhatsApp e email'],
-      en: ['AFIP/ARCA e-invoicing', 'Mercado Pago and Tiendanube', 'WhatsApp and email'],
+      es: ['Facturación electrónica AFIP/ARCA', 'Stock y ventas', 'Mercado Pago'],
+      en: ['AFIP/ARCA e-invoicing', 'Stock and sales', 'Mercado Pago'],
+    },
+  },
+  {
+    icon: 'globe',
+    title: { es: 'Sitios web y tiendas online', en: 'Websites and online stores' },
+    body: {
+      es: 'Webs rápidas, que se ven perfectas en el celular y están pensadas para que el visitante te consulte o te compre.',
+      en: 'Fast websites that look great on mobile and are designed to turn visitors into inquiries and sales.',
+    },
+    items: {
+      es: ['Landing pages', 'Tiendanube', 'Formularios y WhatsApp'],
+      en: ['Landing pages', 'Tiendanube', 'Forms and WhatsApp'],
+    },
+  },
+  {
+    icon: 'search',
+    title: { es: 'SEO y palabras clave', en: 'SEO and keywords' },
+    body: {
+      es: 'Investigo cómo te buscan tus clientes y optimizo tu sitio para aparecer en Google cuando te necesitan.',
+      en: 'I research how your customers search and optimize your site to show up on Google when they need you.',
+    },
+    items: {
+      es: ['Investigación de palabras clave', 'SEO técnico', 'Contenido que posiciona'],
+      en: ['Keyword research', 'Technical SEO', 'Content that ranks'],
+    },
+  },
+  {
+    icon: 'target',
+    title: { es: 'Google Ads y Meta Ads', en: 'Google Ads and Meta Ads' },
+    body: {
+      es: 'Campañas en Google, Instagram y Facebook con seguimiento de conversiones, para que cada peso invertido se pueda medir.',
+      en: 'Campaigns on Google, Instagram and Facebook with conversion tracking, so every dollar spent can be measured.',
+    },
+    items: {
+      es: ['Configuración y segmentación', 'Seguimiento de conversiones', 'Optimización continua'],
+      en: ['Setup and targeting', 'Conversion tracking', 'Ongoing optimization'],
     },
   },
   {
     icon: 'spark',
-    title: { es: 'IA aplicada', en: 'Applied AI' },
+    title: { es: 'IA para tu negocio', en: 'AI for your business' },
     body: {
-      es: 'Asistentes y automatizaciones con Claude o DeepSeek que responden con tu información, con supervisión humana y costos bajo control.',
-      en: 'Assistants and automations on Claude or DeepSeek that answer from your own data, with human oversight and controlled costs.',
+      es: 'Asistentes que responden a tus clientes con tu información y automatizaciones que te ahorran horas, con costos bajo control.',
+      en: 'Assistants that answer your customers with your own information, and automations that save you hours, with costs under control.',
     },
     items: {
-      es: ['RAG y base de conocimiento', 'Agentes y MCP', 'Optimización de costos'],
-      en: ['RAG and knowledge bases', 'Agents and MCP', 'Cost optimization'],
+      es: ['Atención por WhatsApp', 'Base de conocimiento', 'Automatizaciones'],
+      en: ['WhatsApp support', 'Knowledge base', 'Automations'],
     },
   },
   {
     icon: 'shield',
-    title: { es: 'Calidad y despliegue', en: 'Quality and delivery' },
+    title: { es: 'Soporte y mantenimiento', en: 'Support and maintenance' },
     body: {
-      es: 'Pruebas automatizadas, CI/CD, seguridad e infraestructura, para que lo que funciona hoy siga funcionando mañana.',
-      en: 'Automated testing, CI/CD, security and infrastructure, so what works today keeps working tomorrow.',
+      es: 'Tu sistema o tu web siempre funcionando: actualizaciones, respaldos, seguridad y mejoras cuando las necesites.',
+      en: 'Your system or website always running: updates, backups, security and improvements whenever you need them.',
     },
     items: {
-      es: ['Playwright, Jest y Vitest', 'RBAC y auditorías', 'Docker, VPS y Railway'],
-      en: ['Playwright, Jest and Vitest', 'RBAC and audits', 'Docker, VPS and Railway'],
-    },
-  },
-  {
-    icon: 'rocket',
-    title: { es: 'Lanzamiento y crecimiento', en: 'Launch and growth' },
-    body: {
-      es: 'Un buen producto necesita clientes. Lo posiciono en buscadores y armo campañas pagas que miden lo que importa: consultas y ventas.',
-      en: 'A great product needs customers. I get it found on search engines and run paid campaigns that measure what matters: leads and sales.',
-    },
-    items: {
-      es: ['SEO técnico y de contenido', 'Google Ads', 'Meta Ads'],
-      en: ['Technical and content SEO', 'Google Ads', 'Meta Ads'],
+      es: ['Respaldos', 'Seguridad', 'Mejoras continuas'],
+      en: ['Backups', 'Security', 'Ongoing improvements'],
     },
   },
 ];
 
-export const method: { step: string; title: L; body: L }[] = [
+export const process: { step: string; title: L; body: L }[] = [
   {
     step: '01',
-    title: { es: 'Entender', en: 'Understand' },
+    title: { es: 'Charlamos', en: 'We talk' },
     body: {
-      es: 'Relevo el problema con quien lo vive. Defino qué es éxito y cómo se va a medir.',
-      en: 'I map the problem with the people who live it, and define what success is and how it will be measured.',
+      es: 'Me contás tu negocio y qué querés lograr. Defino con vos qué es éxito y cómo lo vamos a medir.',
+      en: 'You tell me about your business and your goals. Together we define what success looks like and how we will measure it.',
     },
   },
   {
     step: '02',
-    title: { es: 'Especificar', en: 'Specify' },
+    title: { es: 'Propuesta clara', en: 'Clear proposal' },
     body: {
-      es: 'Escribo una spec con criterios de aceptación verificables antes de tocar una línea de código.',
-      en: 'I write a spec with verifiable acceptance criteria before touching a line of code.',
+      es: 'Te paso qué voy a hacer, en cuánto tiempo y cuánto cuesta. Sin letra chica.',
+      en: 'You get what I will do, how long it takes and what it costs. No fine print.',
     },
   },
   {
     step: '03',
-    title: { es: 'Construir con agentes', en: 'Build with agents' },
+    title: { es: 'Construyo con avances', en: 'I build, you see progress' },
     body: {
-      es: 'Agentes de IA en paralelo implementan plan y tareas, con hooks de calidad y revisión humana en cada paso.',
-      en: 'AI agents work in parallel on the plan and tasks, with quality hooks and human review at every step.',
+      es: 'Ves el avance a medida que se construye y lo ajustamos antes de salir.',
+      en: 'You see progress as it gets built and we adjust before launch.',
     },
   },
   {
     step: '04',
-    title: { es: 'Verificar y medir', en: 'Verify and measure' },
+    title: { es: 'Lanzamos y crecemos', en: 'Launch and grow' },
     body: {
-      es: 'Una verificación independiente contrasta el resultado con la spec. Después del despliegue, mido si resolvió el problema.',
-      en: 'An independent check compares the result with the spec. After shipping, I measure whether it solved the problem.',
+      es: 'Publicamos, lo posiciono en Google, activamos campañas y medimos resultados para seguir mejorando.',
+      en: 'We go live, I get it ranking on Google, we launch campaigns and measure results to keep improving.',
     },
   },
 ];
@@ -147,22 +170,22 @@ export const method: { step: string; title: L; body: L }[] = [
 export const stack: { group: L; items: string[] }[] = [
   {
     group: { es: 'Desarrollo', en: 'Development' },
-    items: ['TypeScript', 'JavaScript', 'React', 'Next.js', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Sequelize', 'BullMQ', 'Tailwind', 'Astro', 'Vite', 'Turborepo'],
-  },
-  {
-    group: { es: 'IA aplicada', en: 'Applied AI' },
-    items: ['Claude API', 'Claude Code', 'DeepSeek', 'RAG', 'MCP', 'Prompt caching', 'Human-in-the-loop', 'Red-teaming'],
-  },
-  {
-    group: { es: 'Calidad y despliegue', en: 'Quality and delivery' },
-    items: ['Playwright', 'Jest', 'Vitest', 'GitHub Actions', 'Docker', 'Caddy', 'Railway', 'Vercel'],
-  },
-  {
-    group: { es: 'Integraciones', en: 'Integrations' },
-    items: ['AFIP/ARCA (WSAA, WSFE)', 'Mercado Pago', 'Tiendanube', 'WhatsApp / Meta API', 'IMAP', 'Amazon SES', 'Auth0'],
+    items: ['TypeScript', 'React', 'Next.js', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Tailwind', 'Astro'],
   },
   {
     group: { es: 'Marketing y crecimiento', en: 'Marketing and growth' },
     items: ['SEO', 'Google Ads', 'Meta Ads', 'HubSpot'],
+  },
+  {
+    group: { es: 'IA aplicada', en: 'Applied AI' },
+    items: ['Claude API', 'Claude Code', 'DeepSeek', 'RAG', 'MCP'],
+  },
+  {
+    group: { es: 'Integraciones', en: 'Integrations' },
+    items: ['AFIP/ARCA', 'Mercado Pago', 'Tiendanube', 'WhatsApp / Meta API', 'Auth0'],
+  },
+  {
+    group: { es: 'Calidad y despliegue', en: 'Quality and delivery' },
+    items: ['Playwright', 'Jest', 'Vitest', 'GitHub Actions', 'Docker', 'Vercel', 'Railway'],
   },
 ];

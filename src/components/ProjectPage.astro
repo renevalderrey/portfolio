@@ -23,14 +23,14 @@ const [hero, ...gallery] = cs.gallery;
   description={p.summary[lang]}
 >
   <article class="container-page pb-8 pt-10 sm:pt-16">
-    <a href={homeAnchor(lang, 'proyectos')} class="inline-flex min-h-11 items-center gap-2 text-sm text-muted hover:text-text">
+    <a href={homeAnchor(lang, 'trabajos')} class="inline-flex min-h-11 items-center gap-2 text-sm text-muted hover:text-text">
       <Icon name="arrow-left" size={16} />
       {t.project.back}
     </a>
 
     <header class="mt-6 max-w-3xl">
       <p class="eyebrow mb-3">{p.tagline[lang]}</p>
-      <h1 class="text-[clamp(2.75rem,8vw,5rem)] font-bold" style={`view-transition-name: title-${p.slug}`}>{p.name}</h1>
+      <h1 class="text-[clamp(2.75rem,8vw,5rem)]" style={`view-transition-name: title-${p.slug}`}>{p.name}</h1>
       <p class="mt-5 text-lg text-muted">{p.summary[lang]}</p>
       {
         p.url && (
@@ -49,8 +49,8 @@ const [hero, ...gallery] = cs.gallery;
           [t.project.period, p.period[lang]],
           [t.project.status, p.status[lang]],
         ].map(([k, v]) => (
-          <div class="card p-5">
-            <dt class="font-mono text-xs uppercase tracking-wider text-subtle">{k}</dt>
+          <div class="glass p-5">
+            <dt class="text-xs font-medium uppercase tracking-wider text-subtle">{k}</dt>
             <dd class="mt-1 font-semibold">{v}</dd>
           </div>
         ))
@@ -60,7 +60,7 @@ const [hero, ...gallery] = cs.gallery;
     {
       hero && (
         <figure
-          class="mt-12 overflow-hidden rounded-2xl border border-border-strong shadow-2xl shadow-black/50"
+          class="mt-12 overflow-hidden rounded-[1.75rem] border border-border shadow-2xl shadow-shadow"
           style={`view-transition-name: shot-${p.slug}`}
         >
           <Image
@@ -78,9 +78,9 @@ const [hero, ...gallery] = cs.gallery;
 
     <div class="mt-16 grid gap-12 lg:grid-cols-[1fr_1.4fr]">
       <section class="reveal">
-        <h2 class="text-3xl font-bold">{t.project.problem}</h2>
+        <h2 class="text-3xl">{t.project.problem}</h2>
         <p class="mt-4 text-muted">{cs.problem[lang]}</p>
-        <h2 class="mt-10 text-3xl font-bold">{t.project.stack}</h2>
+        <h2 class="mt-10 text-3xl">{t.project.stack}</h2>
         <ul class="mt-4 flex flex-wrap gap-2">
           {p.tags.map((tag) => <li class="chip">{tag}</li>)}
         </ul>
@@ -92,11 +92,11 @@ const [hero, ...gallery] = cs.gallery;
             [t.project.decisions, cs.decisions[lang]],
           ].map(([title, items]) => (
             <section class="reveal">
-              <h2 class="text-3xl font-bold">{title}</h2>
+              <h2 class="text-3xl">{title}</h2>
               <ul class="mt-5 space-y-3">
                 {(items as string[]).map((it) => (
-                  <li class="card flex gap-4 p-5 text-muted">
-                    <Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent-2" />
+                  <li class="glass flex gap-4 p-5 text-muted">
+                    <Icon name="check" size={20} class="mt-0.5 shrink-0 text-accent-text" />
                     <span>{it}</span>
                   </li>
                 ))}
@@ -108,11 +108,11 @@ const [hero, ...gallery] = cs.gallery;
     </div>
 
     <section class="mt-20" aria-labelledby="galeria">
-      <h2 id="galeria" class="reveal text-3xl font-bold">{t.project.gallery}</h2>
+      <h2 id="galeria" class="reveal text-3xl">{t.project.gallery}</h2>
       <ul class="mt-6 grid gap-4 sm:grid-cols-2">
         {
           gallery.map((g) => (
-            <li class="reveal overflow-hidden rounded-xl border border-border">
+            <li class="reveal overflow-hidden rounded-2xl border border-border">
               <Image
                 src={g.src}
                 alt={g.alt[lang]}
@@ -127,8 +127,8 @@ const [hero, ...gallery] = cs.gallery;
       </ul>
     </section>
 
-    <aside class="reveal card mt-20 flex flex-col items-start gap-5 p-8 sm:flex-row sm:items-center sm:justify-between">
-      <p class="font-display text-2xl font-bold">{t.project.next}</p>
+    <aside class="reveal glass mt-20 flex flex-col items-start gap-5 p-8 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-2xl font-semibold tracking-tight">{t.project.next}</p>
       <a href={homeAnchor(lang, 'contacto')} class="btn btn-primary">
         {t.hero.ctaContact}
         <Icon name="arrow" size={18} />

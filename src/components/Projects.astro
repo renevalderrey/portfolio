@@ -11,20 +11,20 @@ const t = useT(lang);
 const rest = projects.filter((p) => p !== featured);
 ---
 
-<section id="proyectos" class="container-page py-16" aria-labelledby="proyectos-title">
-  <SectionHeader id="proyectos-title" eyebrow={t.projects.eyebrow} title={t.projects.title} lead={t.projects.lead} />
+<section id="trabajos" class="container-page py-16 sm:py-20" aria-labelledby="trabajos-title">
+  <SectionHeader id="trabajos-title" eyebrow={t.projects.eyebrow} title={t.projects.title} lead={t.projects.lead} />
 
-  <article class="reveal card grid gap-0 lg:grid-cols-[1fr_1.15fr]">
+  <article class="reveal glass grid lg:grid-cols-[1fr_1.15fr]">
     <div class="flex flex-col p-7 sm:p-10">
       <p class="eyebrow mb-4">{t.projects.featured}</p>
-      <h3 class="text-4xl font-bold sm:text-5xl" style={`view-transition-name: title-${featured.slug}`}>{featured.name}</h3>
-      <p class="mt-2 text-lg text-accent-2">{featured.tagline[lang]}</p>
+      <h3 class="text-4xl sm:text-5xl" style={`view-transition-name: title-${featured.slug}`}>{featured.name}</h3>
+      <p class="mt-2 text-lg text-muted">{featured.tagline[lang]}</p>
       <p class="mt-5 text-muted">{featured.summary[lang]}</p>
-      <p class="chip mt-6 self-start text-success">
+      <p class="chip mt-6 self-start font-semibold text-success">
         <Icon name="check" size={14} />
         {featured.status[lang]}
       </p>
-      <ul class="mt-6 flex flex-wrap gap-2">
+      <ul class="mt-5 flex flex-wrap gap-2">
         {featured.tags.map((tag) => <li class="chip">{tag}</li>)}
       </ul>
       <div class="mt-auto flex flex-wrap gap-3 pt-8">
@@ -34,7 +34,7 @@ const rest = projects.filter((p) => p !== featured);
         </a>
         {
           featured.url && (
-            <a href={featured.url} target="_blank" rel="noopener" class="btn btn-outline">
+            <a href={featured.url} target="_blank" rel="noopener" class="btn btn-glass">
               {t.projects.visit}
               <Icon name="external" size={16} />
             </a>
@@ -44,17 +44,11 @@ const rest = projects.filter((p) => p !== featured);
     </div>
     {
       featured.cover && (
-        <div class="relative min-h-64 overflow-hidden border-t border-border lg:border-l lg:border-t-0">
-          <div class="absolute inset-0 bg-linear-to-br from-accent/30 via-transparent to-accent-2/20" />
+        <div class="relative flex items-center p-4 pt-0 sm:p-8 sm:pt-0 lg:pl-0 lg:pt-8">
           <div
-            class="relative m-6 overflow-hidden rounded-xl border border-border-strong shadow-2xl shadow-black/50 sm:m-10 lg:mr-0 lg:rounded-r-none"
+            class="w-full overflow-hidden rounded-2xl border border-border shadow-2xl shadow-shadow"
             style={`view-transition-name: shot-${featured.slug}`}
           >
-            <div class="flex gap-1.5 border-b border-border bg-surface-2 px-3 py-2">
-              <span class="size-2.5 rounded-full bg-border-strong" />
-              <span class="size-2.5 rounded-full bg-border-strong" />
-              <span class="size-2.5 rounded-full bg-border-strong" />
-            </div>
             <Image
               src={featured.cover.src}
               alt={featured.cover.alt[lang]}
@@ -71,28 +65,32 @@ const rest = projects.filter((p) => p !== featured);
   <ul class="mt-4 grid gap-4 md:grid-cols-2">
     {
       rest.map((p) => (
-        <li class:list={['reveal card flex flex-col', p.soon && 'border-dashed']}>
+        <li class:list={['reveal glass flex flex-col', p.soon && 'border-dashed']}>
           {p.cover ? (
-            <div class="overflow-hidden border-b border-border">
-              <Image
-                src={p.cover.src}
-                alt={p.cover.alt[lang]}
-                widths={[480, 800, 1120]}
-                sizes="(min-width: 768px) 560px, 100vw"
-                class="block aspect-16/10 w-full object-cover object-top transition-transform duration-500 hover:scale-105"
-              />
+            <div class="p-2.5 pb-0">
+              <div class="overflow-hidden rounded-[1.25rem] border border-border">
+                <Image
+                  src={p.cover.src}
+                  alt={p.cover.alt[lang]}
+                  widths={[480, 800, 1120]}
+                  sizes="(min-width: 768px) 560px, 100vw"
+                  class="block aspect-16/10 w-full object-cover object-top transition-transform duration-500 hover:scale-[1.03]"
+                />
+              </div>
             </div>
           ) : (
-            <div class="placeholder grid aspect-[16/7] place-items-center border-b border-border md:aspect-16/10" aria-hidden="true">
-              <span class="font-display text-4xl font-bold text-gradient sm:text-5xl">{p.name}</span>
+            <div class="px-6 pt-6" aria-hidden="true">
+              <span class="grid size-12 place-items-center rounded-2xl border border-border bg-surface-2 text-lg font-semibold tracking-tight text-muted">
+                {p.name.slice(0, 1)}
+              </span>
             </div>
           )}
           <div class="flex flex-1 flex-col p-6">
             <div class="flex items-baseline justify-between gap-3">
-              <h3 class="text-xl font-bold">{p.name}</h3>
-              <span class="font-mono text-xs text-subtle">{p.period[lang]}</span>
+              <h3 class="text-xl">{p.name}</h3>
+              <span class="text-xs font-medium text-subtle">{p.period[lang]}</span>
             </div>
-            <p class="mt-1 text-sm text-accent-2">{p.tagline[lang]}</p>
+            <p class="mt-1 text-sm font-medium text-accent-text">{p.tagline[lang]}</p>
             <p class="mt-3 text-sm text-muted">{p.summary[lang]}</p>
             {p.tags.length > 0 && (
               <ul class="mt-4 flex flex-wrap gap-1.5">
@@ -103,7 +101,7 @@ const rest = projects.filter((p) => p !== featured);
             )}
             <div class="mt-auto pt-5">
               {p.url ? (
-                <a href={p.url} target="_blank" rel="noopener" class="inline-flex min-h-11 items-center gap-1.5 font-semibold text-accent-2 hover:text-text">
+                <a href={p.url} target="_blank" rel="noopener" class="inline-flex min-h-11 items-center gap-1.5 font-semibold hover:text-accent-text">
                   {t.projects.visit}
                   <Icon name="external" size={16} />
                   <span class="visually-hidden">: {p.name}</span>
@@ -118,14 +116,3 @@ const rest = projects.filter((p) => p !== featured);
     }
   </ul>
 </section>
-
-<style>
-  /* Tarjetas sin captura: grilla de puntos y halo de los acentos. */
-  .placeholder {
-    background:
-      radial-gradient(circle at 25% 30%, color-mix(in oklch, var(--color-accent) 28%, transparent), transparent 55%),
-      radial-gradient(circle at 80% 75%, color-mix(in oklch, var(--color-accent-2) 22%, transparent), transparent 50%),
-      radial-gradient(color-mix(in oklch, var(--color-text) 14%, transparent) 1px, transparent 1px) 0 0 / 18px 18px,
-      var(--color-surface-2);
-  }
-</style>

@@ -1,4 +1,5 @@
 ---
+import Avatar from './Avatar.astro';
 import Icon from './Icon.astro';
 import { useT } from '../i18n/ui';
 import { getLang, homeAnchor, routes, type L } from '../i18n/utils';
@@ -13,33 +14,30 @@ const other = lang === 'es' ? 'en' : 'es';
 const { alternates } = Astro.props;
 
 const links = [
-  { id: 'proyectos', label: t.nav.projects },
   { id: 'servicios', label: t.nav.services },
-  { id: 'experiencia', label: t.nav.experience },
-  { id: 'metodo', label: t.nav.method },
+  { id: 'trabajos', label: t.nav.projects },
+  { id: 'proceso', label: t.nav.process },
+  { id: 'trayectoria', label: t.nav.experience },
 ];
 ---
 
-<header class="sticky top-0 z-40 border-b border-border/60 bg-bg/70 backdrop-blur-xl">
-  <nav class="container-page flex h-16 items-center justify-between gap-4" aria-label="Principal">
-    <a
-      href={routes.home[lang]}
-      class="flex min-h-11 items-center gap-2.5 font-display text-lg font-bold tracking-tight"
-    >
-      <span
-        class="grid size-8 place-items-center rounded-lg bg-linear-to-br from-accent to-accent-2 text-sm text-on-accent"
-        aria-hidden="true">RV</span
-      >
+<header class="sticky top-0 z-40 px-3 pt-3">
+  <nav
+    class="glass mx-auto flex h-14 max-w-5xl items-center justify-between gap-3 rounded-full py-0 pl-2 pr-1.5 sm:pl-3"
+    aria-label="Principal"
+  >
+    <a href={routes.home[lang]} class="flex min-h-11 items-center gap-2.5 rounded-full pr-2 text-[0.9375rem] font-semibold tracking-tight">
+      <Avatar size={32} eager />
       <span>René Valderrey</span>
     </a>
 
-    <ul class="hidden items-center gap-1 md:flex">
+    <ul class="hidden items-center md:flex">
       {
         links.map((l) => (
           <li>
             <a
               href={homeAnchor(lang, l.id)}
-              class="inline-flex min-h-11 items-center rounded-full px-3.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-text"
+              class="inline-flex min-h-11 items-center rounded-full px-3.5 text-sm text-muted transition-colors hover:text-text"
             >
               {l.label}
             </a>
@@ -48,38 +46,33 @@ const links = [
       }
     </ul>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1.5">
       <a
         href={alternates[other]}
         hreflang={other}
         lang={other}
-        class="inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border border-border px-3 font-mono text-xs uppercase text-muted transition-colors hover:border-accent hover:text-text"
+        class="inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full px-3 text-xs font-semibold uppercase text-muted transition-colors hover:text-text"
         title={t.nav.langLabel}
       >
         <Icon name="globe" size={16} />
         <span aria-hidden="true">{other}</span>
         <span class="visually-hidden">{other === 'en' ? 'English' : 'Español'}</span>
       </a>
-      <a href={homeAnchor(lang, 'contacto')} class="btn btn-primary hidden sm:inline-flex">{t.nav.contact}</a>
+      <a href={homeAnchor(lang, 'contacto')} class="btn btn-primary hidden min-h-11 sm:inline-flex">{t.nav.contact}</a>
 
       <details class="group relative md:hidden">
         <summary
-          class="grid size-11 cursor-pointer list-none place-items-center rounded-full border border-border text-text [&::-webkit-details-marker]:hidden"
+          class="grid size-11 cursor-pointer list-none place-items-center rounded-full text-text [&::-webkit-details-marker]:hidden"
           aria-label={t.nav.menu}
         >
           <Icon name="menu" class="group-open:hidden" />
           <Icon name="close" class="hidden group-open:block" />
         </summary>
-        <ul
-          class="absolute right-0 top-14 w-56 rounded-2xl border border-border bg-surface p-2 shadow-2xl shadow-black/40"
-        >
+        <ul class="glass absolute right-0 top-14 w-60 rounded-3xl p-2">
           {
-            [...links, { id: 'contacto', label: t.nav.contact }].map((l) => (
+            [...links, { id: 'contacto', label: t.nav.contactShort }].map((l) => (
               <li>
-                <a
-                  href={homeAnchor(lang, l.id)}
-                  class="flex min-h-11 items-center rounded-xl px-3 text-text hover:bg-surface-2"
-                >
+                <a href={homeAnchor(lang, l.id)} class="flex min-h-11 items-center rounded-2xl px-4 text-text hover:bg-surface-2">
                   {l.label}
                 </a>
               </li>

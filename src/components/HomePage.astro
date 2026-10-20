@@ -1,21 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from './Hero.astro';
-import Stats from './Stats.astro';
-import Projects from './Projects.astro';
 import Services from './Services.astro';
+import Projects from './Projects.astro';
+import Process from './Process.astro';
+import Stats from './Stats.astro';
 import Experience from './Experience.astro';
-import Method from './Method.astro';
 import Contact from './Contact.astro';
 import { routes } from '../i18n/utils';
 ---
 
 <Base alternates={routes.home}>
   <Hero />
-  <Stats />
-  <Projects />
   <Services />
+  <Projects />
+  <Process />
+  <Stats />
   <Experience />
-  <Method />
   <Contact />
 </Base>

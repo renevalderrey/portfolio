@@ -2,6 +2,8 @@ import { ActionError, defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import { CONTACT_FROM, CONTACT_TO, RESEND_API_KEY } from 'astro:env/server';
 import { Resend } from 'resend';
+import { NEEDS } from '../data/needs';
+import { ui } from '../i18n/ui';
 
 const MIN_FILL_MS = 3000;
 
@@ -16,6 +18,7 @@ export const server = {
       email: z.string().trim().email().max(200),
       message: z.string().trim().min(10).max(5000),
       lang: z.enum(['es', 'en']).default('es'),
+      needs: z.array(z.enum(NEEDS)).max(NEEDS.length).default([]),
       // Trampas para bots: campo oculto que debe quedar vacío y tiempo de llenado.
       website: z.string().optional(),
       startedAt: z.coerce.number().optional(),
@@ -32,14 +35,15 @@ export const server = {
         throw new ActionError({ code: 'INTERNAL_SERVER_ERROR', message: 'Contact form is not configured' });
       }
 
+      const needs = input.needs.map((n) => ui.es.contact.needs[n]).join(', ') || 'Sin especificar';
       const resend = new Resend(RESEND_API_KEY);
       const { error } = await resend.emails.send({
         from: CONTACT_FROM,
         to: CONTACT_TO,
         replyTo: input.email,
-        subject: `Portfolio: mensaje de ${input.name}`,
+        subject: `Consulta de ${input.name}: ${needs}`,
         text: `Nombre: ${input.name}\nEmail: ${input.email}\nIdioma: ${input.lang}\n\n${input.message}`,
-        html: `<p><strong>Nombre:</strong> ${escape(input.name)}<br><strong>Email:</strong> ${escape(input.email)}<br><strong>Idioma:</strong> ${input.lang}</p><p style="white-space:pre-wrap">${escape(input.message)}</p>`,
+        html: `<p><strong>Nombre:</strong> ${escape(input.name)}<br><strong>Email:</strong> ${escape(input.email)}<br><strong>Necesita:</strong> ${escape(needs)}<br><strong>Idioma:</strong> ${input.lang}</p><p style="white-space:pre-wrap">${escape(input.message)}</p>`,
       });
 
       if (error) {

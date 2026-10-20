@@ -4,12 +4,13 @@ interface Props {
   title: string;
   lead?: string;
   id?: string;
+  center?: boolean;
 }
-const { eyebrow, title, lead, id } = Astro.props;
+const { eyebrow, title, lead, id, center = false } = Astro.props;
 ---
 
-<header class="reveal mb-12 max-w-2xl">
-  {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
+<header class:list={['reveal mb-12 max-w-2xl', center && 'mx-auto text-center']}>
+  {eyebrow && <p class="eyebrow mb-4">{eyebrow}</p>}
   <h2 id={id} class="section-title">{title}</h2>
-  {lead && <p class="mt-4 text-lg text-muted">{lead}</p>}
+  {lead && <p class="mt-5 text-lg text-muted">{lead}</p>}
 </header>

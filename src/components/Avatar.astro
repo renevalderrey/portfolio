@@ -1,0 +1,24 @@
+---
+import { Image } from 'astro:assets';
+import photo from '../assets/rene.jpg';
+
+interface Props {
+  size: number;
+  class?: string;
+  eager?: boolean;
+  /** Vacío cuando hay un nombre visible al lado (la imagen es decorativa). */
+  alt?: string;
+}
+
+const { size, class: className, eager = false, alt = '' } = Astro.props;
+---
+
+<Image
+  src={photo}
+  alt={alt}
+  width={size}
+  height={size}
+  densities={[1, 2]}
+  loading={eager ? 'eager' : 'lazy'}
+  class:list={['shrink-0 rounded-full bg-surface object-cover ring-1 ring-border', className]}
+/>
