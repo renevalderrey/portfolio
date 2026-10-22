@@ -11,6 +11,8 @@ import catalogos from '../assets/favalio/catalogos.webp';
 import faltantes from '../assets/favalio/faltantes.webp';
 import leovale from '../assets/proyectos/leovalestore.webp';
 import cer from '../assets/proyectos/ceralternativas.webp';
+import fitnetDesktop from '../assets/proyectos/fitnet-escritorio.webp';
+import fitnetMobile from '../assets/proyectos/fitnet-celular.webp';
 
 export interface Shot {
   src: ImageMetadata;
@@ -35,13 +37,23 @@ export interface Project {
     decisions: L<string[]>;
     gallery: Shot[];
   };
-  soon?: boolean;
+  /** Qué hice en el proyecto, en lenguaje de cliente. */
+  services?: L<string[]>;
+  /** Links extra además del sitio (por ejemplo, Instagram). */
+  links?: { label: L; url: string; icon?: 'instagram' | 'external' }[];
+  /** Captura de celular para superponer en la tarjeta destacada. */
+  mobile?: Shot;
+  /** Se muestra como tarjeta grande. */
+  featured?: boolean;
+  /** Texto del botón principal cuando no hay caso de estudio. */
+  cta?: L;
 }
 
 export const projects: Project[] = [
   {
     slug: 'favalio',
     name: 'Favalio',
+    featured: true,
     tagline: {
       es: 'SaaS de gestión comercial y facturación electrónica',
       en: 'Business management and e-invoicing SaaS',
@@ -105,18 +117,54 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: 'leovalestore',
-    name: 'Leovalestore',
-    tagline: { es: 'Sitio para un estudio de manicura', en: 'Website for a nail studio' },
-    summary: {
-      es: 'Landing elegante para un estudio de manicura: servicios con precios, galería de trabajos y reserva de turnos. Construida con Next.js y desplegada como sitio estático.',
-      en: 'An elegant landing page for a nail studio: priced services, a portfolio gallery and appointment booking. Built with Next.js and deployed as a static site.',
+    slug: 'fitnet',
+    name: 'FitNet × Comprafit',
+    featured: true,
+    tagline: {
+      es: 'Catálogo online con precios exclusivos para socios',
+      en: 'Online catalog with members-only prices',
     },
-    role: { es: 'Diseño y desarrollo', en: 'Design and development' },
+    summary: {
+      es: 'Comprafit, una tienda de suplementos que gestiona todo con Favalio, se asoció con el gimnasio FitNet: sus socios entran a un catálogo propio con descuento, eligen su sucursal, ven el stock real de ese local y piden para retirar en el gimnasio.',
+      en: 'Comprafit, a supplement store that runs on Favalio, partnered with FitNet gym: members get their own discounted catalog, pick a branch, see that store’s real stock and order for pickup at the gym.',
+    },
+    role: { es: 'Producto y desarrollo, sobre Favalio', en: 'Product and development, on Favalio' },
     period: { es: '2026', en: '2026' },
     status: { es: 'Online', en: 'Live' },
-    tags: ['Next.js', 'TypeScript', 'Tailwind', 'GitHub Pages'],
+    tags: ['Favalio', 'React', 'Catálogo online', 'Stock en tiempo real'],
+    services: {
+      es: ['Catálogo con la marca del cliente', 'Precios de socio', 'Stock por sucursal', 'Retiro en el gimnasio'],
+      en: ['Catalog with the client’s branding', 'Member pricing', 'Per-branch stock', 'Pickup at the gym'],
+    },
+    url: 'https://tienda.favalio.com/c/fitnet',
+    cta: { es: 'Ver el catálogo', en: 'See the catalog' },
+    cover: {
+      src: fitnetDesktop,
+      alt: { es: 'Catálogo de FitNet con suplementos y precios de socio', en: 'FitNet catalog with supplements and member prices' },
+    },
+    mobile: {
+      src: fitnetMobile,
+      alt: { es: 'El mismo catálogo en el celular', en: 'The same catalog on mobile' },
+    },
+  },
+  {
+    slug: 'leovalestore',
+    name: 'Leovalestore',
+    tagline: { es: 'Web y campañas en Meta Ads para un estudio de manicura', en: 'Website and Meta Ads campaigns for a nail studio' },
+    summary: {
+      es: 'Diseñé y desarrollé su sitio, con servicios, precios, galería y reserva de turnos, y llevo sus campañas en Instagram y Facebook para atraer nuevas clientas.',
+      en: 'I designed and built the website, with services, prices, a gallery and booking, and I run their Instagram and Facebook campaigns to bring in new clients.',
+    },
+    role: { es: 'Diseño, desarrollo y campañas', en: 'Design, development and ads' },
+    period: { es: '2026', en: '2026' },
+    status: { es: 'Online', en: 'Live' },
+    tags: ['Next.js', 'TypeScript', 'Tailwind', 'Meta Ads'],
+    services: {
+      es: ['Diseño web', 'Desarrollo', 'Campañas en Meta Ads'],
+      en: ['Web design', 'Development', 'Meta Ads campaigns'],
+    },
     url: 'https://renevalderrey.github.io/leovalestore/',
+    links: [{ label: { es: '@leovalestore', en: '@leovalestore' }, url: 'https://www.instagram.com/leovalestore/', icon: 'instagram' }],
     cover: {
       src: leovale,
       alt: { es: 'Portada del sitio del estudio de manicura', en: 'Nail studio website hero' },
@@ -134,39 +182,18 @@ export const projects: Project[] = [
     period: { es: 'Cliente', en: 'Client' },
     status: { es: 'Online', en: 'Live' },
     tags: ['React', 'Vite', 'Bootstrap'],
+    services: {
+      es: ['Diseño web', 'Desarrollo'],
+      en: ['Web design', 'Development'],
+    },
     url: 'https://ceralternativas.com/',
     cover: {
       src: cer,
       alt: { es: 'Portada del sitio de CER Alternativas', en: 'CER Alternativas website hero' },
     },
   },
-  {
-    slug: 'a-solas',
-    name: 'A Solas',
-    tagline: { es: 'Tienda online para un cliente', en: 'Online store for a client' },
-    summary: {
-      es: 'Mi primer trabajo para un cliente real: tienda con catálogo, panel de administración con carga de imágenes y cobro con Mercado Pago. Lo hice antes de trabajar con IA; el cliente dio de baja el dominio.',
-      en: 'My first job for a real client: a store with a catalog, an admin panel with image uploads and Mercado Pago checkout. Built before I worked with AI; the client later dropped the domain.',
-    },
-    role: { es: 'Full stack', en: 'Full stack' },
-    period: { es: '2023', en: '2023' },
-    status: { es: 'Sitio dado de baja', en: 'Site taken down' },
-    tags: ['React', 'Redux', 'Express', 'MongoDB', 'Cloudinary', 'Mercado Pago'],
-  },
-  {
-    slug: 'fideliapp',
-    name: 'Fideliapp',
-    tagline: { es: 'Programa de fidelización para comercios', en: 'Loyalty program for retailers' },
-    summary: {
-      es: 'Un nuevo producto en camino.',
-      en: 'A new product on the way.',
-    },
-    role: { es: 'Fundador', en: 'Founder' },
-    period: { es: 'Próximamente', en: 'Coming soon' },
-    status: { es: 'En diseño', en: 'In design' },
-    tags: [],
-    soon: true,
-  },
 ];
 
 export const featured = projects[0];
+export const highlighted = projects.filter((p) => p.featured);
+export const others = projects.filter((p) => !p.featured);

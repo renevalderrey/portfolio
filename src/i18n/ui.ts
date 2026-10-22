@@ -40,8 +40,9 @@ const es = {
   projects: {
     eyebrow: 'Trabajos',
     title: 'Proyectos reales, funcionando',
-    lead: 'Sistemas en producción y sitios para clientes que hoy usan para vender.',
+    lead: 'Sistemas en producción, catálogos online y webs con campañas que traen clientes.',
     featured: 'Caso destacado',
+    collab: 'En colaboración',
     caseStudy: 'Ver el caso completo',
     visit: 'Visitar sitio',
     soon: 'Próximamente',
@@ -161,8 +162,9 @@ const en: Dict = {
   projects: {
     eyebrow: 'Work',
     title: 'Real projects, up and running',
-    lead: 'Systems in production and client websites that are selling today.',
+    lead: 'Systems in production, online catalogs and websites with campaigns that bring in customers.',
     featured: 'Featured case',
+    collab: 'Partnership',
     caseStudy: 'Read the full case',
     visit: 'Visit site',
     soon: 'Coming soon',
